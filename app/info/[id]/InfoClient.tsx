@@ -3,6 +3,7 @@ import { addDownload } from '@/prisma/prismaDb'
 import { BreadcrumbItem, Breadcrumbs, Button, Image } from '@nextui-org/react'
 import { collection } from '@prisma/client'
 import moment from 'moment'
+import { revalidatePath } from 'next/cache'
 import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 
@@ -22,6 +23,8 @@ const InfoClient = ({ data }: { data: collection }) => {
         document.body.removeChild(downloadLink);
         setLoading(false)
         await addDownload(data?.id)
+        revalidatePath('/info/[id]');
+
     }
 
     const handleTimeDisplay = (date: Date) => {
