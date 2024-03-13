@@ -25,7 +25,7 @@ const ImageContainer = ({ imageData, inputSearch }: TImageBox) => {
         } else {
             setData(imageData)
         }
-    }, [inputSearch])
+    }, [inputSearch, imageData])
 
     return !!data?.length ? (
         <ResponsiveMasonry columnsCountBreakPoints={{ 350: 2, 800: 3, 1200: 4 }}>

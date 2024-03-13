@@ -9,6 +9,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <title>Wallpaper Spot</title>
+      </head>
       <body>
         <NextUIProvider>
           {children}

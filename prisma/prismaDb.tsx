@@ -1,7 +1,7 @@
 'use server'
-import { TInput } from "@/app/admin/99887/page";
 import { collection } from "@prisma/client";
 import { prisma } from './prisma'
+import { TInput } from "@/app/admin/99887/AdminPage";
 
 //upload many wallpapers
 export const createManyWallPaper = async (data: any) => {
