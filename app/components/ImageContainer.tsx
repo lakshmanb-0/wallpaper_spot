@@ -2,7 +2,6 @@
 import { searchWall } from '@/prisma/prismaDb';
 import { Image } from '@nextui-org/react';
 import { collection } from '@prisma/client';
-import { revalidatePath } from 'next/cache';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
@@ -19,7 +18,7 @@ const ImageContainer = ({ imageData, inputSearch }: TImageBox) => {
     useEffect(() => {
         const fetchData = async () => {
             let data = await searchWall(inputSearch)
-            revalidatePath('/');
+      
             setData(data)
         }
         if (!!inputSearch?.length) {
