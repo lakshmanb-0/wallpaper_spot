@@ -1,7 +1,6 @@
 'use client'
 import { createManyWallPaper, createWallPaper } from '@/prisma/prismaDb'
 import { Button, Input, Textarea } from '@nextui-org/react'
-import { revalidatePath } from 'next/cache';
 import React, { useState } from 'react'
 import * as XLSX from 'xlsx';
 
@@ -58,7 +57,6 @@ const AdminPage = () => {
     const handleUpload = async () => {
         setLoading(true)
         let a = await createManyWallPaper(upload)
-        revalidatePath('/admin/99887');
         console.log(a);
         setLoading(false)
     }
