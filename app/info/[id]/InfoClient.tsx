@@ -3,7 +3,6 @@ import { addDownload } from '@/prisma/prismaDb'
 import { BreadcrumbItem, Breadcrumbs, Button, Image } from '@nextui-org/react'
 import { collection } from '@prisma/client'
 import moment from 'moment'
-import { revalidatePath } from 'next/cache'
 import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 
@@ -23,7 +22,6 @@ const InfoClient = ({ data }: { data: collection }) => {
         document.body.removeChild(downloadLink);
         setLoading(false)
         await addDownload(data?.id)
-        revalidatePath('/info/[id]');
 
     }
 
@@ -33,17 +31,17 @@ const InfoClient = ({ data }: { data: collection }) => {
     }
 
     return (
-        <div className='lg:h-screen flex flex-col lg:grid lg:grid-cols-4 gap-8 bg-[#f7f7f8]'>
+        <div className='min-h-screen flex flex-col lg:grid lg:grid-cols-4 gap-8 bg-[#f7f7f8]'>
             <section className='flex flex-col bg-[#fcfcfd] lg:h-full p-5 sm:p-10 shadow-lg'>
                 <Breadcrumbs className='pb-6'>
                     <BreadcrumbItem onClick={() => router.push('/')}>Home</BreadcrumbItem>
                     <BreadcrumbItem>Info</BreadcrumbItem>
                 </Breadcrumbs>
                 <header className='flex gap-3 items-center'>
-                    <h1 className='truncate'>{data.author}</h1>
+                    <h1 className='truncate'>{data.author.toLowerCase().replaceAll(" ", "_")}</h1>
                     <p className='text-xs opacity-70' title={moment(data.date).format("DD MMM YYYY, h:mm a")}>{handleTimeDisplay(data.date)}</p>
                 </header>
-                <div className='py-2 opacity-80'>
+                <div className='py-5 opacity-80 text-sm'>
                     {data.prompt.split('--')[0]}
                 </div>
                 <div className='flex items-center gap-4 flex-wrap pb-8'>
@@ -51,12 +49,13 @@ const InfoClient = ({ data }: { data: collection }) => {
                         <Button size='sm' title='Use in prompt' className='cursor-default' key={index}>{el}</Button>
                     ))}
                 </div>
-                <Button className='mt-auto ' onClick={downloadImage} isLoading={loading}>
+                <Button className='mt-3 lg:mt-auto ' onClick={downloadImage} isLoading={loading}>
                     Download
                 </Button>
             </section>
             <div className='lg:col-span-3 m-auto p-5 sm:p-10  pointer-events-none '>
                 <Image
+                    isBlurred
                     alt="NextUI hero Image"
                     src={data?.src}
                     className='object-contain max-h-[90vh] my-auto '

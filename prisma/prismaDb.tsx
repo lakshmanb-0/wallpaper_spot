@@ -53,7 +53,7 @@ export const createWallPaper = async (data: TInput) => {
 // get wallpaper info 
 export const getWallInfo = async (id: string) => {
     try {
-        const getWall = await prisma.collection.findFirst({
+        const getWall = await prisma.collection.findUnique({
             where: { id: id }
         })
         return getWall;
@@ -96,9 +96,11 @@ export const addViews = async (id: string) => {
 
 
 // get All collection 
-export const allCollection = async () => {
+export const allCollection = async (skipNumber: number, takeNumber: number) => {
     try {
         const allImages: collection[] = await prisma.collection.findMany({
+            skip: skipNumber,
+            take: takeNumber,
             orderBy: {
                 date: 'desc'
             }
@@ -116,7 +118,7 @@ export const searchWall = async (input: string) => {
     try {
         const allImages = await prisma.collection.findMany({
             where: {
-                prompt: { contains: input }
+                prompt: { contains: input, mode: 'insensitive' }
             }
         });
         return allImages;
