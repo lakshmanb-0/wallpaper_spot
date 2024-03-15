@@ -62,7 +62,7 @@ const AdminPage = () => {
     }
 
     return (
-        <section className='grid sm:grid-cols-2 gap-10 h-screen items-center justify-center max-w-[900px] mx-auto p-4'>
+        <section className='grid sm:grid-cols-2 gap-10 h-[90vh] items-center justify-center max-w-[900px] mx-auto p-4'>
             <form onSubmit={handleSubmit}>
                 <h1 className='font-bold text-4xl p-4 text-center'>Add Wallpaper</h1>
                 <section className='flex flex-col gap-4 w-full'>

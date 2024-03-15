@@ -31,7 +31,7 @@ const InfoClient = ({ data }: { data: collection }) => {
     }
 
     return (
-        <div className='min-h-screen flex flex-col lg:grid lg:grid-cols-4 gap-8 bg-[#f7f7f8]'>
+        <div className='min-h-[90vh] flex flex-col lg:grid lg:grid-cols-4 gap-8 bg-[#f7f7f8]'>
             <section className='flex flex-col bg-[#fcfcfd] lg:h-full p-5 sm:p-10 shadow-lg'>
                 <Breadcrumbs className='pb-6'>
                     <BreadcrumbItem onClick={() => router.push('/')}>Home</BreadcrumbItem>

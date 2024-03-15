@@ -94,7 +94,6 @@ export const addViews = async (id: string) => {
     }
 }
 
-
 // get All collection 
 export const allCollection = async (skipNumber: number, takeNumber: number) => {
     try {
@@ -113,15 +112,27 @@ export const allCollection = async (skipNumber: number, takeNumber: number) => {
     }
 }
 
-// search wallpaper 
-export const searchWall = async (input: string) => {
+// get All collection Count 
+export const collectionCount = async () => {
     try {
-        const allImages = await prisma.collection.findMany({
+        const count = await prisma.collection.count()
+        return count;
+    } catch (error) {
+        console.error('Error getting collection:', error);
+    } finally {
+        await prisma.$disconnect();
+    }
+}
+
+// search wallpaper count 
+export const searchWallCount = async (input: string) => {
+    try {
+        const count = await prisma.collection.count({
             where: {
                 prompt: { contains: input, mode: 'insensitive' }
             }
         });
-        return allImages;
+        return count;
     } catch (error) {
         console.error('Error searching collection:', error);
     } finally {
@@ -129,4 +140,20 @@ export const searchWall = async (input: string) => {
     }
 }
 
-
+// search wallpaper 
+export const searchWall = async (input: string, skipNumber: number, takeNumber: number) => {
+    try {
+        const searchedImage = await prisma.collection.findMany({
+            skip: skipNumber,
+            take: takeNumber,
+            where: {
+                prompt: { contains: input, mode: 'insensitive' }
+            }
+        });
+        return searchedImage;
+    } catch (error) {
+        console.error('Error searching collection:', error);
+    } finally {
+        await prisma.$disconnect();
+    }
+}
