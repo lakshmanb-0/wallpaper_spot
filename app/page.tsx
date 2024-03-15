@@ -8,7 +8,7 @@ export default async function page() {
   revalidatePath('/');
 
   return (
-    <main className='min-h-screen'>
+    <main className='min-h-screen max-width'>
       <section className="p-4">
         <ImageContainer imageData={imageData!} />
       </section>

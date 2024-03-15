@@ -101,7 +101,7 @@ export const allCollection = async (skipNumber: number, takeNumber: number) => {
             skip: skipNumber,
             take: takeNumber,
             orderBy: {
-                date: 'desc'
+                id: 'desc'
             }
         })
         return allImages;
@@ -148,6 +148,9 @@ export const searchWall = async (input: string, skipNumber: number, takeNumber: 
             take: takeNumber,
             where: {
                 prompt: { contains: input, mode: 'insensitive' }
+            },
+            orderBy: {
+                id: 'desc'
             }
         });
         return searchedImage;

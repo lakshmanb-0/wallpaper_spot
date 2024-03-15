@@ -1,6 +1,6 @@
 'use client'
 import { allCollection, collectionCount, searchWall, searchWallCount } from '@/prisma/prismaDb';
-import { Image } from '@nextui-org/react';
+import { Image, Spinner } from '@nextui-org/react';
 import { collection } from '@prisma/client';
 import { useInView } from 'framer-motion';
 import { usePathname, useRouter } from 'next/navigation';
@@ -12,24 +12,23 @@ type TImageBox = {
 }
 const ImageContainer = ({ imageData }: TImageBox) => {
     const [data, setData] = useState<collection[] | undefined>(imageData)
+    const [count, setCount] = useState<number | undefined>(0)
     const pathName = usePathname()
     const router = useRouter()
     const ref = useRef(null)
-    const countRef = useRef<number>(1)
     const isInView = useInView(ref)
 
+    // fetch count from database 
     useEffect(() => {
         const fetchCount = async () => {
-            let count: number | undefined = 0;
             pathName.includes('search')
-                ? count = await searchWallCount(pathName.split('/')[2])
-                : count = await collectionCount()
-
-            countRef.current = count || 1
+                ? setCount(await searchWallCount(pathName.split('/')[2]))
+                : setCount(await collectionCount())
         }
         fetchCount()
     }, [])
 
+    // fetch new data of 10 items until data == count
     useEffect(() => {
         const fetchNewData = async () => {
             let el: any;
@@ -44,11 +43,10 @@ const ImageContainer = ({ imageData }: TImageBox) => {
 
     return !!data?.length ? (
         <>
-            <ResponsiveMasonry columnsCountBreakPoints={{ 350: 2, 800: 3, 1200: 4 }}>
+            <ResponsiveMasonry columnsCountBreakPoints={{ 350: 2, 800: 3, 1200: 4, 1500: 5 }}>
                 <Masonry gutter="5px">
                     {data?.map((el) => (
                         <Image
-
                             key={el?.id}
                             alt="WallPaper"
                             src={el?.src}
@@ -59,9 +57,12 @@ const ImageContainer = ({ imageData }: TImageBox) => {
                     <div />
                 </Masonry>
             </ResponsiveMasonry>
-            {countRef.current == data?.length ?
+            {count == data?.length ?
                 <div className=' pt-10 text-center font-bold'>--- You have reached the end point ---</div>
-                : <div ref={ref} />
+                : <section className='text-center pt-3'>
+                    <Spinner />
+                    <div ref={ref} />
+                </section>
             }
         </>
     )
