@@ -10,9 +10,7 @@ export const createManyWallPaper = async (data: any) => {
             author: el[0],
             prompt: el[1],
             src: el[2],
-            date: new Date(),
-            download: 0,
-            views: 0
+            tags: el[3]?.split(',')
         }));
 
         // Filter out undefined values
@@ -37,9 +35,7 @@ export const createWallPaper = async (data: TInput) => {
                 author: data?.author,
                 prompt: data?.prompt,
                 src: data?.src,
-                date: new Date(),
-                download: 0,
-                views: 0
+                tags: data?.tags.split(',')
             },
         })
         return newWall;

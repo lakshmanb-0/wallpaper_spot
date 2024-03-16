@@ -1,6 +1,6 @@
 'use client'
 import { allCollection, collectionCount, searchWall, searchWallCount } from '@/prisma/prismaDb';
-import { Image, Spinner } from '@nextui-org/react';
+import { Card, CardBody, Image, Spinner } from '@nextui-org/react';
 import { collection } from '@prisma/client';
 import { useInView } from 'framer-motion';
 import { usePathname, useRouter } from 'next/navigation';
@@ -44,15 +44,18 @@ const ImageContainer = ({ imageData }: TImageBox) => {
     return !!data?.length ? (
         <>
             <ResponsiveMasonry columnsCountBreakPoints={{ 350: 2, 800: 3, 1200: 4, 1500: 5 }}>
-                <Masonry gutter="5px">
+                <Masonry gutter='10px'>
                     {data?.map((el) => (
-                        <Image
-                            key={el?.id}
-                            alt="WallPaper"
-                            src={el?.src}
-                            className='cursor-pointer hover:scale-90 transition-all ease-in-out duration-500'
-                            onClick={() => router.push(`/info/${el.id}`)}
-                        />
+                        <Card shadow="none" key={el?.id} isPressable onPress={() => router.push(`/info/${el.id}`)} className='p-0'>
+                            <CardBody className='relative cursor-pointer hover:scale-90 transition-all ease-in-out duration-500 p-0'>
+                                <Image
+                                    key={el?.id}
+                                    alt="WallPaper"
+                                    src={el?.src}
+                                />
+                                <div className='absolute inset-0 w-full h-full z-20' />
+                            </CardBody>
+                        </Card>
                     ))}
                     <div />
                 </Masonry>

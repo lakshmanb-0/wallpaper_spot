@@ -12,7 +12,8 @@ model collection {
   author   String
   prompt   String
   src      String   @unique
-  date     DateTime
-  download Int
-  views    Int
+  tags     String[]
+  date     DateTime @default(now())
+  download Int      @default(0)
+  views    Int      @default(0)
 }

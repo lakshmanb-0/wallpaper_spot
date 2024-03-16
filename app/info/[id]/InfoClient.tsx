@@ -34,7 +34,7 @@ const InfoClient = ({ data }: { data: collection }) => {
         <div className='min-h-[90vh] flex flex-col lg:grid lg:grid-cols-4 gap-8 bg-[#f7f7f8] max-width'>
             <section className='flex flex-col bg-[#fcfcfd] lg:h-full p-5 sm:p-10 shadow-lg'>
                 <Breadcrumbs className='pb-6'>
-                    <BreadcrumbItem onClick={() => router.push('/')}>Home</BreadcrumbItem>
+                    <BreadcrumbItem onPress={() => router.back()}>Home</BreadcrumbItem>
                     <BreadcrumbItem>Info</BreadcrumbItem>
                 </Breadcrumbs>
                 <header className='flex gap-3 items-center'>

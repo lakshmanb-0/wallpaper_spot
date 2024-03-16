@@ -8,10 +8,11 @@ export type TInput = {
     author: string,
     prompt: string,
     src: string,
+    tags: string
 }
 
 const AdminPage = () => {
-    const [input, setInput] = useState<TInput>({ author: '', prompt: '', src: '' })
+    const [input, setInput] = useState<TInput>({ author: '', prompt: '', src: '', tags: '', })
     const [loading, setLoading] = useState<boolean>(false)
     const [upload, setUpload] = useState({})
 
@@ -27,11 +28,12 @@ const AdminPage = () => {
         let data: TInput = {
             author: input.author,
             prompt: input.prompt,
-            src: input.src
+            src: input.src,
+            tags: input.tags,
         }
         const newWall = await createWallPaper(data)
         console.log(newWall);
-        setInput({ author: '', prompt: '', src: '' })
+        setInput({ author: '', prompt: '', src: '', tags: '', })
         setLoading(false)
     }
 
@@ -69,6 +71,7 @@ const AdminPage = () => {
                     <Input variant={'faded'} label="Author" value={input.author} onChange={(e) => handleChange('author', e.target.value)} />
                     <Textarea minRows={2} label="Prompt" value={input.prompt} onChange={(e) => handleChange('prompt', e.target.value)} />
                     <Input variant={'faded'} label="Path" value={input.src} onChange={(e) => handleChange('src', e.target.value)} />
+                    <Input variant={'faded'} label="Tags" value={input.tags} onChange={(e) => handleChange('tags', e.target.value)} />
                     <Button type="submit" color='primary' isLoading={loading}>Submit</Button>
                 </section>
             </form>
