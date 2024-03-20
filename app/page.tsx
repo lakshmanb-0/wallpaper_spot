@@ -1,4 +1,3 @@
-'use server'
 import { allCollection } from "@/prisma/prismaDb";
 import { revalidatePath } from "next/cache";
 import ImageContainer from "./components/ImageContainer";

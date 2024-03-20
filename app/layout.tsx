@@ -1,13 +1,13 @@
 'use client'
 import Navbar from "./components/Navbar";
+import Context from "./context/ContextProvider";
 import "./globals.css";
 import { NextUIProvider } from "@nextui-org/react";
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout(props: {
+  children: React.ReactNode,
+  modal: React.ReactNode
+}) {
   return (
     <html lang="en">
       <head>
@@ -16,7 +16,10 @@ export default function RootLayout({
       <body>
         <NextUIProvider>
           <Navbar />
-          {children}
+          <Context>
+            {props.modal}
+            {props.children}
+          </Context>
         </NextUIProvider>
       </body>
     </html>
