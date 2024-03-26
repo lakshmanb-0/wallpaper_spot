@@ -6,9 +6,16 @@ import React from 'react'
 const Search = () => {
     const router = useRouter()
     const pathName = usePathname()
+
+    const handleInputChange = (e: any) => {
+        if (e.key === 'Enter' && e.target.value != '') {
+            router.push(`/search/${e.target.value}`)
+        }
+    }
     return (
-        <Input placeholder="Search an Image" className='w-full' defaultValue={pathName.includes('search') ? pathName.split('/')[2] : ''}
-            onKeyDown={(e: any) => e.key == 'Enter' && router.push(e.target.value != '' ? `/search/${e.target.value}` : '')} />
+        <Input placeholder="Search an Image" className='w-full'
+            defaultValue={pathName.includes('search') ? pathName.split('/')[2]?.replaceAll('%20', ' ') : ''}
+            onKeyDown={handleInputChange} />
     )
 }
 export default Search

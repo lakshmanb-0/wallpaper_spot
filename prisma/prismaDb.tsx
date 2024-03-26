@@ -125,7 +125,10 @@ export const searchWallCount = async (input: string) => {
     try {
         const count = await prisma.collection.count({
             where: {
-                prompt: { contains: input, mode: 'insensitive' }
+                OR: [
+                    { prompt: { contains: input, mode: 'insensitive' } },
+                    { tags: { has: input } }
+                ]
             }
         });
         return count;
@@ -143,7 +146,10 @@ export const searchWall = async (input: string, skipNumber: number, takeNumber: 
             skip: skipNumber,
             take: takeNumber,
             where: {
-                prompt: { contains: input, mode: 'insensitive' }
+                OR: [
+                    { prompt: { contains: input, mode: 'insensitive' } },
+                    { tags: { has: input } }
+                ]
             },
             orderBy: {
                 id: 'desc'

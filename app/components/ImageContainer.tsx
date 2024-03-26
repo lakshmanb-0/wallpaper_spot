@@ -3,18 +3,18 @@ import { allCollection, collectionCount, searchWall, searchWallCount } from '@/p
 import { Card, CardBody, Image, Spinner } from '@nextui-org/react';
 import { collection } from '@prisma/client';
 import { useInView } from 'framer-motion';
-import { usePathname, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import { Context, MyObjectContextType } from '../context/ContextProvider';
 
 type TImageBox = {
     imageData: collection[],
+    searchText?: string
 }
-const ImageContainer = ({ imageData }: TImageBox) => {
-    const [data, setData] = useState<collection[] | undefined>(imageData)
+const ImageContainer = ({ imageData, searchText }: TImageBox) => {
+    const [data, setData] = useState<collection[]>(imageData ?? [])
     const [count, setCount] = useState<number | undefined>(0)
-    const pathName = usePathname()
     const router = useRouter()
     const ref = useRef(null)
     const isInView = useInView(ref)
@@ -22,26 +22,29 @@ const ImageContainer = ({ imageData }: TImageBox) => {
 
     // fetch count from database 
     useEffect(() => {
+        // fetch Count 
         const fetchCount = async () => {
-            pathName.includes('search')
-                ? setCount(await searchWallCount(pathName.split('/')[2]))
+            searchText
+                ? setCount(await searchWallCount(searchText))
                 : setCount(await collectionCount())
         }
         fetchCount()
-    }, [])
+    }, [searchText])
 
     // fetch new data of 10 items until data == count
     useEffect(() => {
-        const fetchNewData = async () => {
+        const fetchNextData = async () => {
             let el: any;
-            pathName.includes('search')
-                ? el = await searchWall(pathName.split('/')[2], data?.length || 0, 10)
+            searchText
+                ? el = await searchWall(searchText, data?.length || 0, 10)
                 : el = await allCollection(data?.length || 0, 10)
 
             el?.length && setData([...data!, ...el])
         }
-        isInView && fetchNewData();
+        fetchNextData();
     }, [isInView])
+
+    console.log(count, data?.length);
 
     return !!data?.length ? (
         <>
@@ -51,6 +54,7 @@ const ImageContainer = ({ imageData }: TImageBox) => {
                         <Card shadow="none" key={el?.id} isPressable onPress={() => { updateInfoData(el); router.push(`/info/${el.id}`) }} className='p-0'>
                             <CardBody className='relative cursor-pointer hover:scale-90 transition-all ease-in-out duration-500 p-0 overflow-hidden'>
                                 <Image
+                                    loading='lazy'
                                     isBlurred
                                     key={el?.id}
                                     alt="WallPaper"
@@ -65,9 +69,8 @@ const ImageContainer = ({ imageData }: TImageBox) => {
             </ResponsiveMasonry>
             {count == data?.length ?
                 <div className=' pt-10 text-center font-bold'>--- You have reached the end point ---</div>
-                : <section className='text-center pt-3'>
+                : <section className='text-center pt-3' ref={ref}>
                     <Spinner />
-                    <div ref={ref} />
                 </section>
             }
         </>
