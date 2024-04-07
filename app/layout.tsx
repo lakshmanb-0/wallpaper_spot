@@ -1,8 +1,5 @@
-'use client'
-import Navbar from "./components/Navbar";
-import Context from "./context/ContextProvider";
+import Provider from "./components/Provider/Provider";
 import "./globals.css";
-import { NextUIProvider } from "@nextui-org/react";
 
 export default function RootLayout(props: {
   children: React.ReactNode,
@@ -14,13 +11,12 @@ export default function RootLayout(props: {
         <title>Wallpaper Spot</title>
       </head>
       <body>
-        <NextUIProvider>
-          <Navbar />
-          <Context>
-            {props.modal}
-            {props.children}
-          </Context>
-        </NextUIProvider>
+        <Provider>
+          <div id="modal-root" />
+
+          {props.children}
+          {props.modal}
+        </Provider>
       </body>
     </html>
   );

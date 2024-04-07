@@ -32,7 +32,7 @@ const InfoClient = ({ data, modal }: { data: collection, modal: boolean }) => {
     }
 
     return (
-        <div className={`sm:min-h-[90vh] flex flex-col gap-8 bg-[#f7f7f8] ${modal ? '' : 'max-width'}  pb-20 sm:pb-0 pt-8 sm:pt-0`}>
+        <div className={`sm:min-h-[90vh] flex flex-col gap-8 bg-[#f7f7f8] ${modal ? '' : 'max-width'}  pt-8 sm:pt-0`}>
             <section className='flex flex-col bg-[#fcfcfd] lg:h-full p-5 sm:p-10 shadow-lg order-last'>
                 <Breadcrumbs className='pb-6'>
                     <BreadcrumbItem onPress={() => router.back()}>Home</BreadcrumbItem>
@@ -62,7 +62,7 @@ const InfoClient = ({ data, modal }: { data: collection, modal: boolean }) => {
                     className='object-contain sm:max-h-[70vh] my-auto'
                     onLoad={(e: any) => setImageRatio({ width: e.target.width, height: e.target.height })}
                 />
-                <Button className='absolute top-6 sm:top-12 right-6 sm:right-12 z-10 shadow-sm' size='sm'>{imageRatio.width + "x" + imageRatio.height}</Button>
+                {!!imageRatio.width && <Button className='absolute top-6 sm:top-12 right-6 sm:right-12 z-10 shadow-sm' size='sm'>{imageRatio.width + "x" + imageRatio.height}</Button>}
             </div>
         </div>
     )

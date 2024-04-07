@@ -1,7 +1,7 @@
 'use server'
 import { collection } from "@prisma/client";
-import { prisma } from './prisma'
 import { TInput } from "@/app/admin/99887/AdminPage";
+import prisma from "./prisma";
 
 //upload many wallpapers
 export const createManyWallPaper = async (data: any) => {
@@ -10,7 +10,8 @@ export const createManyWallPaper = async (data: any) => {
             author: el[0],
             prompt: el[1],
             src: el[2],
-            tags: el[3]?.split(',')
+            tags: el[3]?.split(',').map(el => el.trim())
+
         }));
 
         // Filter out undefined values
@@ -35,7 +36,7 @@ export const createWallPaper = async (data: TInput) => {
                 author: data?.author,
                 prompt: data?.prompt,
                 src: data?.src,
-                tags: data?.tags.split(',')
+                tags: data?.tags.split(',').map(el => el.trim())
             },
         })
         return newWall;
